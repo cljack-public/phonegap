@@ -1,0 +1,124 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;"> 
+	<title>Multi-page template</title>
+	<link rel="stylesheet" href="./css/jquery.mobile-1.2.0.min.css" />
+	<script src="./js/jquery-1.8.2.min.js"></script>
+	<script src="./js/jquery.mobile-1.2.0.min.js"></script>
+	<script type="text/javascript" src="cordova-2.3.0.js"></script>
+    <script>
+    	function ajax_auth_login_callback(data)
+    	{
+    		alert('in ajax_auth_login_callback()');
+    		
+    		if (data.status == 'success')
+    		{
+    			window.location="#request_list_page";
+    		}
+    		else
+    		{
+    			alert(data.message);
+    		}
+    	}
+    	function ajax_auth_login()
+    	{
+    		alert('in ajax_auth_login() 1');
+    		
+    		var postvars = { 
+    			user_id:	$('#username').val(),
+    			password:	$('#password').val()
+    		};
+    		
+    		alert('in ajax_auth_login() 2');
+    		alert(postvars.user_id);
+    		alert(postvars.password);
+    		$.post("https://chet.comvibe.com/mobile/auth/ajax_auth_login/TRUE", postvars, ajax_auth_login_callback, 'json');
+    		
+    		alert('leaving ajax_auth_login()');
+    	}
+    	
+		function onDeviceReady()
+		{
+			navigator.notification.alert("PhoneGap is ready!");
+			//Get the appInfo DOM element
+			//var element = document.getElementById('appInfo');
+			//replace it with specific information about the device running the application
+    		//element.innerHTML = 'PhoneGap (version ' + device.phonegap + ')<br />' + device.platform + ' ' + device.name + ' (version ' + device.version + ').';
+			//alert('PhoneGap (version ' + device.phonegap + ')<br />' + device.platform + ' ' + device.name + ' (version ' + device.version + ').');
+		}
+		
+		function onBodyLoad()
+		{
+			document.addEventListener("deviceready", onDeviceReady, false);
+		}
+    </script>
+</head> 
+
+	
+<body onload="onBodyLoad();"> 
+
+<!-- Start of login_page -->
+<div data-role="page" id="login_page" data-theme="d">
+
+	<div data-role="header" data-position="fixed">
+		<h1>PhoneGap Test</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">	
+		<h2>Login</h2>
+		<span>Username: </span><input id="username" name="username" type="email"/>
+		<br />
+		<span>Password</span><input id="password" name="password" type="password"/>
+		<p><a href="javascript:ajax_auth_login();" data-role="button">Login</a></p>		
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-position="fixed" data-theme="d">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- end of login page -->
+
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="request_list_page" data-theme="d">
+
+	<div data-role="header">
+		<h1>PhoneGap Test</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">	
+		<h2>Maintenance requests</h2>
+		<p>I have an id of "two" on my page container. I'm the second page container in this multi-page template.</p>	
+		<p>Notice that the theme is different for this page because we've added a few <code>data-theme</code> swatch assigments here to show off how flexible it is. You can add any content or widget to these pages, but we're keeping these simple.</p>	
+		<p><a href="#login_page" data-direction="reverse" data-role="button" data-theme="b">Logout</a></p>	
+		
+	</div><!-- /content -->
+	
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page two -->
+
+
+<!-- Start of third page: #popup -->
+<div data-role="page" id="popup">
+
+	<div data-role="header" data-theme="d">
+		<h1>Dialog</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="d">	
+		<h2>Popup</h2>
+		<p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>		
+		<p><a href="#one" data-rel="back" data-role="button" data-inline="true" data-icon="back">Back to page "one"</a></p>	
+	</div><!-- /content -->
+	
+	<div data-role="footer">
+		<h4>Test App Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page popup -->
+
+</body>
+</html>

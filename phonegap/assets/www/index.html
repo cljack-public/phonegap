@@ -4,16 +4,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;"> 
-	<title>Multi-page template</title>
+	<title>PhoneGap Test</title>
 	<link rel="stylesheet" href="./css/jquery.mobile-1.2.0.min.css" />
 	<script src="./js/jquery-1.8.2.min.js"></script>
 	<script src="./js/jquery.mobile-1.2.0.min.js"></script>
 	<script type="text/javascript" src="cordova-2.3.0.js"></script>
+	<script type="text/javascript" src="./js/cv_database.js"></script>
     <script>
+    	var db = null;
+    	
     	function ajax_auth_login_callback(data)
-    	{
-    		alert('in ajax_auth_login_callback()');
-    		
+    	{	
     		if (data.status == 'success')
     		{
     			window.location="#request_list_page";
@@ -25,24 +26,18 @@
     	}
     	function ajax_auth_login()
     	{
-    		alert('in ajax_auth_login() 1');
-    		
-    		var postvars = { 
+        	var postvars = { 
     			user_id:	$('#username').val(),
     			password:	$('#password').val()
     		};
     		
-    		alert('in ajax_auth_login() 2');
-    		alert(postvars.user_id);
-    		alert(postvars.password);
-    		$.post("https://chet.comvibe.com/mobile/auth/ajax_auth_login/TRUE", postvars, ajax_auth_login_callback, 'json');
-    		
-    		alert('leaving ajax_auth_login()');
+    		$.post("https://chet.comvibe.com/mobile/phone_gap/ajax_auth_login", postvars, ajax_auth_login_callback, 'json');
     	}
     	
 		function onDeviceReady()
 		{
 			navigator.notification.alert("PhoneGap is ready!");
+			db = new CV_database();
 			//Get the appInfo DOM element
 			//var element = document.getElementById('appInfo');
 			//replace it with specific information about the device running the application
@@ -62,8 +57,8 @@
 
 <!-- Start of login_page -->
 <div data-role="page" id="login_page" data-theme="d">
-
 	<div data-role="header" data-position="fixed">
+		<a href="index.html" data-role="button" data-icon="uigear" data-iconpos="right" style="float: right;">settings</a>
 		<h1>PhoneGap Test</h1>
 	</div><!-- /header -->
 
@@ -80,12 +75,31 @@
 	</div><!-- /footer -->
 </div><!-- end of login page -->
 
+<!-- *** START OF SETTINGS PAGE -->
+<div data-role="page" id="settings_page" data-theme="d">
+	<div data-role="header" data-position="fixed">
+		<h1>PhoneGap Test</h1>
+	</div><!-- /header -->
 
+	<div data-role="content" data-theme="d">	
+		<h2>Login</h2>
+		<span>Username: </span><input id="username" name="username" type="email"/>
+		<br />
+		<span>Password</span><input id="password" name="password" type="password"/>
+		<p><a href="javascript:ajax_auth_login();" data-role="button">Login</a></p>		
+	</div><!-- /content -->
+	
+	<div data-role="footer" data-position="fixed" data-theme="d">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- end of login page -->
+<!-- *** END OF SETTINGS PAGE -->
 <!-- Start of second page: #two -->
 <div data-role="page" id="request_list_page" data-theme="d">
 
 	<div data-role="header">
 		<h1>PhoneGap Test</h1>
+		<div ></div>
 	</div><!-- /header -->
 
 	<div data-role="content" data-theme="d">	
@@ -96,7 +110,7 @@
 		
 	</div><!-- /content -->
 	
-	<div data-role="footer">
+	<div data-role="footer" data-position="fixed" data-theme="d">
 		<h4>Page Footer</h4>
 	</div><!-- /footer -->
 </div><!-- /page two -->
@@ -119,6 +133,11 @@
 		<h4>Test App Footer</h4>
 	</div><!-- /footer -->
 </div><!-- /page popup -->
-
+<script>
+$(document).ready(function()
+{
+	//var db = new CV_database();
+});
+</script>
 </body>
 </html>
